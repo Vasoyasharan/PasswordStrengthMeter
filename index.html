@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberLock | Advanced Password Analyzer</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+    
+    <!-- zxcvbn for password strength -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-lock"></i>
+                <h1>CyberLock</h1>
+            </div>
+            <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+
+        <div class="password-input-container">
+            <div class="input-group" id="input-container">
+                <i class="fas fa-key"></i>
+                <input type="password" id="password-input" placeholder="Type your password..." autocomplete="off">
+                <button id="toggle-visibility" class="icon-btn">
+                    <i class="fas fa-eye" style="color: white;"></i>
+                    <span class="tooltip">Show Password</span>
+                </button>
+            </div>
+            
+            <button id="copy-btn" class="icon-btn">
+                <i class="fas fa-copy"></i>
+                <span class="tooltip">Copy</span>
+            </button>
+            
+            <button id="generate-btn" class="icon-btn">
+                <i class="fas fa-random"></i>
+                <span class="tooltip">Generate</span>
+            </button>
+        </div>
+
+        <div class="strength-section">
+            <div class="strength-meter">
+                <div class="strength-bar" id="strength-bar"></div>
+            </div>
+            <div class="strength-labels">
+                <span>Weak</span>
+                <span>Fair</span>
+                <span>Good</span>
+                <span>Strong</span>
+                <span>Ultra</span>
+            </div>
+        </div>
+
+        <div class="results-grid">
+            <div class="result-card">
+                <div class="card-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3>Entropy 
+                    <div class="info-trigger">
+                        <i class="fas fa-info-circle info-icon"></i>
+                        <div class="info-box">
+                            Entropy measures the randomness or unpredictability of your password. A higher entropy means a stronger password.
+                        </div>
+                    </div>
+                </h3>
+                <p id="entropy-value">0 bits</p>
+            </div>
+            
+            <div class="result-card">
+                <div class="card-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>Crack Time 
+                    <div class="info-trigger">
+                        <i class="fas fa-info-circle info-icon"></i>
+                        <div class="info-box">
+                            Crack Time shows how long it would take for an attacker to guess your password using brute force.
+                        </div>
+                    </div>
+                </h3>
+                <p id="crack-time-value">Instant</p>
+            </div>
+            
+            <div class="result-card">
+                <div class="card-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Breach Status 
+                    <div class="info-trigger">
+                        <i class="fas fa-info-circle info-icon"></i>
+                        <div class="info-box">
+                            This indicates whether your password has been involved in any known data breaches.
+                        </div>
+                    </div>
+                </h3>
+                <p id="pwned-value">-</p>
+            </div>
+            
+            <div class="result-card">
+                <div class="card-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <h3>Score 
+                    <div class="info-trigger">
+                        <i class="fas fa-info-circle info-icon"></i>
+                        <div class="info-box">
+                            The score is based on how complex your password is, as measured by the zxcvbn algorithm.
+                        </div>
+                    </div>
+                </h3>
+                <p id="zxcvbn-score">0/4</p>
+            </div>
+        </div>
+
+        <div class="recommendations">
+            <div class="rec-header">
+                <i class="fas fa-lightbulb"></i>
+                <h2>Security Recommendations</h2>
+            </div>
+            <div class="rec-content" id="recommendations-list">
+                <div class="rec-item">
+                    <i class="fas fa-check-circle"></i>
+                    <p>Use at least 12 characters</p>
+                </div>
+                <div class="rec-item">
+                    <i class="fas fa-check-circle"></i>
+                    <p>Include numbers & symbols</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
